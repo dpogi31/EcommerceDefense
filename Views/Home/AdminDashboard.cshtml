@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">@ViewData["Title"]</h2>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-success">
+            @ViewBag.Message
+        </div>
+    }
+
+    <p class="lead">Welcome, Admin! Use the panel below to manage your eCommerce platform.</p>
+
+    <div class="list-group mt-4">
+        <a asp-controller="Admin" asp-action="Index" class="list-group-item list-group-item-action">
+            🛍 Manage Products
+        </a>
+        <a asp-area="Identity" asp-page="/Account/Manage" class="list-group-item list-group-item-action">
+            👤 Manage Account
+        </a>
+        <form method="post" asp-area="Identity" asp-page="/Account/Logout" class="mt-2">
+            <button class="btn btn-danger">🚪 Logout</button>
+        </form>
+    </div>
+</div>

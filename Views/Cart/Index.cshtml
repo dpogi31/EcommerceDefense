@@ -1,0 +1,50 @@
+﻿@model List<EcommerceDefense.Models.CartItem>
+@{
+    ViewData["Title"] = "Your Cart";
+}
+
+<h2>Your Cart</h2>
+
+@if (!Model.Any())
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table class="table table-bordered mt-4">
+        <thead class="table-light">
+            <tr>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><img src="@item.ImageUrl" width="80" /></td>
+                    <td>@item.Name</td>
+                    <td>₱@item.Price</td>
+                    <td>@item.Quantity</td>
+                    <td>₱@(item.Quantity* item.Price)</td>
+                    <td>
+                        <form asp-controller="Cart" asp-action="RemoveFromCart" method="post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+
+            }
+        </tbody>
+    </table>
+
+    <p class="fw-bold text-end">
+        Total: ₱@Model.Sum(i => i.Price * i.Quantity)
+    </p>
+}

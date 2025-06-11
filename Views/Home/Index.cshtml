@@ -1,0 +1,39 @@
+﻿@model List<EcommerceDefense.Models.Product>
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center my-5">
+    <h1 class="display-4 fw-bold">Welcome to Chronosync</h1>
+    <p class="lead text-muted">Browse quality tech gear and gadgets for everyday use.</p>
+    <a href="@Url.Action("Index", "Product")" class="btn btn-warning btn-lg mt-3">Shop Now</a>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <section class="container my-5">
+        <h2 class="mb-4">Featured Products</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var product in Model.Take(6))
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="object-fit: cover; height: 200px;">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text text-muted">@product.Description?.Substring(0, Math.Min(60, product.Description.Length))...</p>
+                            <p class="fw-bold">₱@product.Price</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 text-end">
+                            <a href="@Url.Action("AddToCart", "Cart", new { id = product.Id, name = product.Name, price = product.Price, imageUrl = product.ImageUrl })" class="btn btn-sm btn-primary">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+}
+else
+{
+    <p class="text-center text-muted">No products available at the moment.</p>
+}

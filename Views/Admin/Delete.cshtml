@@ -1,0 +1,24 @@
+﻿@model EcommerceDefense.Models.Product
+
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<h2>Delete Product</h2>
+
+<div class="alert alert-warning">
+    Are you sure you want to delete the following product?
+</div>
+
+<div class="card p-3 mb-3">
+    <h4>@Model.Name</h4>
+    <p>@Model.Description</p>
+    <p><strong>Price:</strong> ₱@Model.Price</p>
+    <img src="@Model.ImageUrl" alt="@Model.Name" style="max-width: 200px;" />
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
