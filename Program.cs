@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Configure services BEFORE calling builder.Build()
+
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                       ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -25,9 +25,9 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 
-var app = builder.Build(); // ✅ Now build after services are registered
+var app = builder.Build(); 
 
-// ✅ Create Roles (can remain here)
+
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -42,7 +42,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// ✅ Middleware pipeline
+
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -66,4 +66,4 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-await app.RunAsync(); // ✅ Only call RunAsync once
+await app.RunAsync(); 
