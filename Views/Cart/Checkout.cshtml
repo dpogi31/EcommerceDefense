@@ -1,50 +1,65 @@
 ﻿@model EcommerceDefense.Models.OrderViewModel
+
 @{
     ViewData["Title"] = "Checkout";
 }
 
-<h2>Checkout</h2>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="shadow-lg p-5 rounded-4 bg-white">
+                <h2 class="mb-4 text-center fw-bold text-success">Checkout</h2>
 
-<form asp-action="Checkout" method="post">
-    <div class="mb-3">
-        <label asp-for="FullName" class="form-label">Full Name</label>
-        <input asp-for="FullName" class="form-control" />
-        <span asp-validation-for="FullName" class="text-danger"></span>
+                <form asp-action="Checkout" method="post" novalidate>
+                    <div class="mb-3">
+                        <label asp-for="FullName" class="form-label">Full Name</label>
+                        <input asp-for="FullName" class="form-control" placeholder="Juan Dela Cruz" />
+                        <span asp-validation-for="FullName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Address" class="form-label">Shipping Address</label>
+                        <textarea asp-for="Address" class="form-control" rows="3" placeholder="123 Street, City, Province"></textarea>
+                        <span asp-validation-for="Address" class="text-danger small"></span>
+                    </div>
+
+                    <h4 class="mb-3"> Cart Summary</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.CartItems)
+                                {
+                                    <tr>
+                                        <td>@item.Name</td>
+                                        <td>@item.Quantity</td>
+                                        <td>₱@item.Price</td>
+                                        <td>₱@(item.Price* item.Quantity)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3">
+                        <h5><strong>Total Amount:</strong> ₱@Model.TotalAmount</h5>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm">Place Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label asp-for="Address" class="form-label">Shipping Address</label>
-        <textarea asp-for="Address" class="form-control"></textarea>
-        <span asp-validation-for="Address" class="text-danger"></span>
-    </div>
-
-    <h4>Cart Summary</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Qty</th>
-                <th>Price</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.CartItems)
-            {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Quantity</td>
-                    <td>₱@item.Price</td>
-                    <td>₱@(item.Price* item.Quantity)</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <p><strong>Total Amount:</strong> ₱@Model.TotalAmount</p>
-
-    <button type="submit" class="btn btn-success">Place Order</button>
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

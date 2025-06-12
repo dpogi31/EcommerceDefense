@@ -7,12 +7,16 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EcommerceDefense.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="/">EcommerceDefense</a>
+                <a class="navbar-brand" asp-area="" asp-page="/Index">
+                    <img src="~/images/logo.jpg" alt="Logo" style="height: 40px;" />
+                </a>
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav me-auto mb-2 mb-sm-0">
                         <li class="nav-item">
@@ -49,11 +53,24 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - EcommerceDefense - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="footer-landing mt-auto">
+        <div class="footer-content text-center py-4 px-3">
+            <h2 class="footer-title">Chrono Sync</h2>
+            <p class="footer-tagline">Stay in sync with your health, your style, and your time. Only at Chrono Sync.</p>
+            <div class="footer-icons mt-3">
+                <a href="https://www.facebook.com/" aria-label="Facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/" aria-label="Tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.youtube.com/" aria-label="Youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.linkedin.com/" aria-label="Linkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom text-center py-3">
+            <p class="mb-0 text-muted">© 2025 ChronoSync. All rights reserved.</p>
         </div>
     </footer>
+
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

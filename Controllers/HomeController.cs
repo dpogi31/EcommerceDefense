@@ -15,40 +15,13 @@ namespace EcommerceDefense.Controllers
             _logger = logger;
         }
 
-        
+        [Authorize]
         [Authorize]
         public IActionResult Index()
         {
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction("AdminDashboard");
-            }
-            else if (User.IsInRole("User"))
-            {
-                return RedirectToAction("UserDashboard");
-            }
-
-            return View("AccessDenied"); 
-        }
-
-        [Authorize(Roles = "Admin")]
-        public IActionResult AdminDashboard()
-        {
-            ViewBag.Message = "Welcome to the Admin Dashboard!";
             return View(); 
         }
 
-        [Authorize(Roles = "User")]
-        public IActionResult UserDashboard()
-        {
-            ViewBag.Message = "Welcome to the User Dashboard!";
-            return View(); 
-        }
-        [Authorize]
-        public IActionResult AccessDenied()
-        {
-            return View(); // This will render the AccessDenied.cshtml view
-        }
 
         [AllowAnonymous]
         public IActionResult Privacy()

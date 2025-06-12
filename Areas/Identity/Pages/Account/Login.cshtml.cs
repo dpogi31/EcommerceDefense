@@ -1,73 +1,89 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using EcommerceDefense.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using EcommerceDefense.Models; 
+using Microsoft.Extensions.Logging;
 
-namespace EcommerceDefense.Areas.Identity.Pages.Account;
-public class LoginModel : PageModel
+namespace EcommerceDefense.Areas.Identity.Pages.Account
 {
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    public void OnGet(string returnUrl = null)
+    public class LoginModel : PageModel
     {
-        ReturnUrl = returnUrl ?? Url.Content("~/");
-    }
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ILogger<LoginModel> _logger;
 
-    public LoginModel(SignInManager<ApplicationUser> signInManager)
-    {
-        _signInManager = signInManager;
-    }
-
-    [BindProperty]
-    public InputModel Input { get; set; } = new InputModel();
-
-    public string ReturnUrl { get; set; } = string.Empty;
-
-    public class InputModel
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; } = string.Empty;
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; } = string.Empty;
-
-        [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
-    }
-
-    public async Task<IActionResult> OnPostAsync(string returnUrl = null)
-    {
-        returnUrl ??= Url.Content("~/");
-
-        if (ModelState.IsValid)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
         {
-            var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-
-            if (result.Succeeded)
-            {
-                var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
-
-                if (await _signInManager.UserManager.IsInRoleAsync(user, "Admin"))
-                {
-                    return RedirectToAction("AdminDashboard", "Home");
-                }
-                else if (await _signInManager.UserManager.IsInRoleAsync(user, "User"))
-                {
-                    return RedirectToAction("UserDashboard", "Home");
-                }
-
-                // fallback for users with no role
-                return RedirectToAction("AccessDenied", "Home");
-
-            }
-
-            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            _signInManager = signInManager;
+            _logger = logger;
         }
 
-        return Page();
-    }
+        [BindProperty]
+        public InputModel Input { get; set; }
 
+        public string ReturnUrl { get; set; }
+
+        [TempData]
+        public string ErrorMessage { get; set; }
+
+        public class InputModel
+        {
+            [Required]
+            [EmailAddress]
+            public string Email { get; set; }
+
+            [Required]
+            [DataType(DataType.Password)]
+            public string Password { get; set; }
+
+            [Display(Name = "Remember me?")]
+            public bool RememberMe { get; set; }
+        }
+
+        public async Task OnGetAsync(string returnUrl = null)
+        {
+            if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                ModelState.AddModelError(string.Empty, ErrorMessage);
+            }
+
+            ReturnUrl = returnUrl ?? Url.Content("~/");
+
+            // Clear any existing external cookies (safe to leave, or remove if not needed)
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+        }
+
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        {
+            ReturnUrl = returnUrl ?? Url.Content("~/");
+
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(
+                    Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User logged in.");
+                    return LocalRedirect(ReturnUrl);
+                }
+                else if (result.RequiresTwoFactor)
+                {
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl, Input.RememberMe });
+                }
+                else if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User account locked out.");
+                    return RedirectToPage("./Lockout");
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            }
+
+            // Something failed, redisplay form
+            return Page();
+        }
+    }
 }

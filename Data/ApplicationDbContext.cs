@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using EcommerceDefense.Models; // assuming ApplicationUser is here
+using EcommerceDefense.Models; 
 
 namespace EcommerceDefense.Data
 {
