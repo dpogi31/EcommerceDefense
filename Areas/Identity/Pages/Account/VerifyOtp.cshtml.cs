@@ -16,7 +16,8 @@ public class VerifyOtpModel : PageModel
     }
 
     [BindProperty]
-    public InputModel Input { get; set; }
+    public InputModel Input { get; set; } = new();
+
 
     public class InputModel
     {

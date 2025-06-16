@@ -1,5 +1,6 @@
-﻿using EcommerceDefense.Models;
-using EcommerceDefense.Helpers; // For GetObjectFromJson
+﻿using EcommerceDefense.ViewModels;
+using EcommerceDefense.Models;
+using EcommerceDefense.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceDefense.Controllers
@@ -14,7 +15,6 @@ namespace EcommerceDefense.Controllers
             var model = new OrderViewModel
             {
                 CartItems = cartItems
-                // TotalAmount will be auto-calculated in the model
             };
             return View(model);
         }
@@ -28,19 +28,25 @@ namespace EcommerceDefense.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(model); // Redisplay form with validation errors
+                return View(model); 
             }
 
-            // TODO: Save the order to DB or process it here
-            // e.g., _context.Orders.Add(order); _context.SaveChanges();
+            // Store data temporarily for receipt view
+            TempData["FullName"] = model.FullName;
+            TempData["Address"] = model.Address; 
+            TempData["PaymentMethod"] = model.PaymentMethod;
+            TempData["TotalAmount"] = model.TotalAmount.ToString("N2");
 
-            HttpContext.Session.Remove("Cart"); // Clear cart after successful checkout
+            // Clear the cart after successful checkout
+            HttpContext.Session.Remove("Cart");
+
             return RedirectToAction("OrderSuccess");
         }
 
+        // GET: /Order/OrderSuccess
         public IActionResult OrderSuccess()
         {
-            return View(); // Create Views/Order/OrderSuccess.cshtml
+            return View(); // Displays receipt from TempData
         }
     }
 }

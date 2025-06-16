@@ -158,7 +158,7 @@ namespace EcommerceDefense.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // ✅ GET: Admin/ViewUsers
+        //  GET: Admin/ViewUsers
         public async Task<IActionResult> ViewUsers()
         {
             var users = await _userManager.Users.ToListAsync();

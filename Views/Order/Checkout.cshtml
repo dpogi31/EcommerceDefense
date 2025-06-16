@@ -1,4 +1,5 @@
-﻿@model EcommerceDefense.Models.OrderViewModel
+﻿@model EcommerceDefense.ViewModels.OrderViewModel
+
 @{
     ViewData["Title"] = "Checkout";
 }
@@ -8,15 +9,26 @@
 
     <form asp-action="Checkout" method="post">
         <div class="mb-3">
-            <label asp-for="FullName" class="form-label"></label>
+            <label asp-for="FullName" class="form-label">Full Name</label>
             <input asp-for="FullName" class="form-control" />
-            <span asp-validation-for="FullName" class="text-danger"></span>
+            <span asp-validation-for="FullName" class="text-danger small"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Address" class="form-label"></label>
+            <label asp-for="Address" class="form-label">Address</label>
             <textarea asp-for="Address" class="form-control" rows="3"></textarea>
-            <span asp-validation-for="Address" class="text-danger"></span>
+            <span asp-validation-for="Address" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="PaymentMethod" class="form-label">Payment Method</label>
+            <select asp-for="PaymentMethod" class="form-select">
+                <option value="">Select a payment method</option>
+                <option>Cash on Delivery</option>
+                <option>GCash</option>
+                <option>Credit Card</option>
+            </select>
+            <span asp-validation-for="PaymentMethod" class="text-danger small"></span>
         </div>
 
         <h5 class="mt-4">Order Summary</h5>
