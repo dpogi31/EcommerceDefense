@@ -7,7 +7,7 @@ namespace EcommerceDefense.Models
 {
     public class CartItem
     {
-        public int Id { get; set; }           // ✅ This is the missing property!
+        public int Id { get; set; }         
         public string Name { get; set; } = string.Empty;
         public string ImageUrl { get; set; } = string.Empty;
         public decimal Price { get; set; }

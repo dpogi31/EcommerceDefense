@@ -1,5 +1,4 @@
-﻿// File: Models/ApplicationUser.cs
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 
 namespace EcommerceDefense.Models
