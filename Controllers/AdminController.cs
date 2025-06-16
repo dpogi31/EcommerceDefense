@@ -1,33 +1,42 @@
-﻿using EcommerceDefense.Models;
+﻿using EcommerceDefense.Data;
+using EcommerceDefense.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcommerceDefense.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        
-        public static List<Product> Products = new List<Product>();
+        private readonly ApplicationDbContext _context;
+
+        public AdminController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         private bool IsAdmin()
         {
             return HttpContext.Session.GetString("Role") == "Admin";
         }
 
-        
-        public IActionResult Index()
+        // GET: Admin/Index
+        public async Task<IActionResult> Index()
         {
             if (!IsAdmin())
                 return RedirectToAction("Index", "Login");
 
-            return View(Products);
+            var products = await _context.Products.ToListAsync();
+            return View(products);
         }
 
-        
+        // GET: Admin/Create
         public IActionResult Create()
         {
             if (!IsAdmin())
@@ -36,85 +45,140 @@ namespace EcommerceDefense.Controllers
             return View();
         }
 
-        
+        // POST: Admin/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Product product)
+        public async Task<IActionResult> Create(Product product)
         {
             if (!IsAdmin())
                 return RedirectToAction("Index", "Login");
 
             if (ModelState.IsValid)
             {
-                product.Id = Products.Any() ? Products.Max(p => p.Id) + 1 : 1;
-                Products.Add(product);
+                //  Handle image upload
+                if (product.ImageFile != null && product.ImageFile.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                    Directory.CreateDirectory(uploadsFolder);
+
+                    var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(product.ImageFile.FileName);
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await product.ImageFile.CopyToAsync(stream);
+                    }
+
+                    product.ImageUrl = "/uploads/" + uniqueFileName;
+                }
+
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
+
                 TempData["SuccessMessage"] = "Product added!";
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
 
             return View(product);
         }
 
-        
-        public IActionResult Edit(int id)
+        // GET: Admin/Edit/5
+        public async Task<IActionResult> Edit(int id)
         {
             if (!IsAdmin())
                 return RedirectToAction("Index", "Login");
 
-            var product = Products.FirstOrDefault(p => p.Id == id);
-            if (product == null) return NotFound();
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+                return NotFound();
 
             return View(product);
         }
 
-        
+        // POST: Admin/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Product updated)
+        public async Task<IActionResult> Edit(int id, Product updated)
         {
             if (!IsAdmin())
                 return RedirectToAction("Index", "Login");
 
-            var product = Products.FirstOrDefault(p => p.Id == updated.Id);
-            if (product == null) return NotFound();
+            if (id != updated.Id)
+                return NotFound();
 
-            product.Name = updated.Name;
-            product.Description = updated.Description;
-            product.Price = updated.Price;
-            product.ImageUrl = updated.ImageUrl;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var product = await _context.Products.FindAsync(id);
+                    if (product == null) return NotFound();
 
-            TempData["SuccessMessage"] = "Product updated!";
-            return RedirectToAction("Index");
+                    product.Name = updated.Name;
+                    product.Description = updated.Description;
+                    product.Price = updated.Price;
+
+                    // Image upload (optional)
+                    if (updated.ImageFile != null && updated.ImageFile.Length > 0)
+                    {
+                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                        Directory.CreateDirectory(uploadsFolder);
+
+                        var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(updated.ImageFile.FileName);
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await updated.ImageFile.CopyToAsync(stream);
+                        }
+
+                        product.ImageUrl = "/uploads/" + uniqueFileName;
+                    }
+
+                    _context.Update(product);
+                    await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = "Product updated!";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return NotFound();
+                }
+            }
+
+            return View(updated);
         }
 
-        
-        public IActionResult Delete(int id)
+        // GET: Admin/Delete/5
+        public async Task<IActionResult> Delete(int id)
         {
             if (!IsAdmin())
                 return RedirectToAction("Index", "Login");
 
-            var product = Products.FirstOrDefault(p => p.Id == id);
-            if (product == null) return NotFound();
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            if (product == null)
+                return NotFound();
 
             return View(product);
         }
-        
+
+        // POST: Admin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (!IsAdmin())
                 return RedirectToAction("Index", "Login");
 
-            var product = Products.FirstOrDefault(p => p.Id == id);
-            if (product != null)
-                Products.Remove(product);
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+                return NotFound();
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Product deleted!";
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
-
-
-
     }
 }

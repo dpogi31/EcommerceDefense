@@ -1,0 +1,55 @@
+﻿@model EcommerceDefense.Models.OrderViewModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Checkout</h2>
+
+    <form asp-action="Checkout" method="post">
+        <div class="mb-3">
+            <label asp-for="FullName" class="form-label"></label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Address" class="form-label"></label>
+            <textarea asp-for="Address" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+        <h5 class="mt-4">Order Summary</h5>
+        <table class="table table-bordered mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CartItems)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Quantity</td>
+                        <td>₱@item.Price</td>
+                        <td>₱@(item.Quantity* item.Price)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <p class="fw-bold text-end">Total: ₱@Model.TotalAmount</p>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-success">Place Order</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

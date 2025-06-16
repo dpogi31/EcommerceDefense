@@ -1,9 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using EcommerceDefense.Models; 
 
-[AllowAnonymous] 
+[AllowAnonymous]
 public class LoginController : Controller
 {
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public LoginController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+    {
+        _signInManager = signInManager;
+        _userManager = userManager;
+    }
+
     public IActionResult Index()
     {
         return View();
@@ -11,22 +23,33 @@ public class LoginController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [AllowAnonymous] 
-    public IActionResult Authenticate(string username, string password)
+    public async Task<IActionResult> Authenticate(string username, string password)
     {
-        if (username == "admin" && password == "admin123")
+        var user = await _userManager.FindByNameAsync(username);
+
+        if (user != null)
         {
-            HttpContext.Session.SetString("Username", username);
-            return RedirectToAction("Index", "Product");
+            var result = await _signInManager.PasswordSignInAsync(user, password, isPersistent: false, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                if (await _userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Product");
+                }
+            }
         }
 
         TempData["Error"] = "Invalid credentials.";
         return RedirectToAction("Index");
     }
 
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
-        HttpContext.Session.Clear();
+        await _signInManager.SignOutAsync();
         return RedirectToAction("Index");
     }
 }

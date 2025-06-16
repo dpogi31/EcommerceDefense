@@ -2,12 +2,8 @@
 
 @{
     ViewData["Title"] = "Our Products";
-
-    
-    if (Model.Count > 0) Model[0].Description = "A high-performance smartwatch with real-time health monitoring.";
-    if (Model.Count > 1) Model[1].Description = "Wireless earbuds with noise cancellation and 24-hour battery life.";
-    if (Model.Count > 2) Model[2].Description = "Sleek gaming mouse with customizable RGB lighting and fast response.";
 }
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
@@ -17,13 +13,12 @@
 }
 
 <section class="container my-5">
-    <h2 class="text-center fw-bold mb-4 display-5"> Explore Our Collection</h2>
-    <p class="text-center text-muted mb-5">Browse the latest tech gear — crafted for performance, designed for style.</p>
+    <h2 class="text-center fw-bold mb-4 display-5">Explore Our Collection</h2>
+    <p class="text-center text-muted mb-5">Browse the latest tech gear crafted for performance, designed for style.</p>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-        @for (int i = 0; i < Model.Count; i++)
+        @foreach (var item in Model)
         {
-            var item = Model[i];
             <div class="col">
                 <div class="card h-100 border-0 shadow-lg hover-shadow rounded-4 overflow-hidden transition" style="min-height: 580px;">
                     <div class="overflow-hidden" style="height: 260px;">
@@ -33,7 +28,7 @@
                         <h5 class="card-title fw-semibold text-dark">@item.Name</h5>
                         <p class="fw-bold text-primary mb-3">₱@item.Price</p>
                         <div class="mt-auto d-grid gap-2">
-                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#descModal@i">
+                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#descModal@item.Id">
                                 <i class="bi bi-info-circle me-1"></i> View Description
                             </button>
                             <a asp-controller="Cart" asp-action="AddToCart"
@@ -49,19 +44,30 @@
                 </div>
             </div>
 
-           
-            <div class="modal fade" id="descModal@i" tabindex="-1" aria-labelledby="descModalLabel@i" aria-hidden="true">
+            <!-- Description Modal with Add to Cart -->
+            <div class="modal fade" id="descModal@item.Id" tabindex="-1" aria-labelledby="descModalLabel@item.Id" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content rounded-4">
                         <div class="modal-header bg-light">
-                            <h5 class="modal-title fw-bold" id="descModalLabel@i">@item.Name</h5>
+                            <h5 class="modal-title fw-bold" id="descModalLabel@item.Id">@item.Name</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body text-center px-4 py-4">
-                            <img src="@item.ImageUrl" alt="@item.Name" class="img-fluid rounded mb-4" style="max-height: 300px; object-fit: cover;">
-                            <div class="text-start">
-                                <h6 class="fw-semibold text-dark">Description:</h6>
+                        <div class="modal-body d-flex gap-4 flex-column flex-md-row align-items-center text-center text-md-start px-4 py-4">
+                            <img src="@item.ImageUrl" alt="@item.Name" class="img-fluid rounded" style="max-height: 300px; object-fit: cover;">
+                            <div>
+                                <h6 class="fw-semibold text-dark mb-2">Description:</h6>
                                 <p class="text-muted">@item.Description</p>
+                                <p class="fw-bold text-primary fs-5 mb-4">₱@item.Price</p>
+
+                                <form asp-controller="Cart" asp-action="AddToCart" method="get">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="hidden" name="name" value="@item.Name" />
+                                    <input type="hidden" name="price" value="@item.Price" />
+                                    <input type="hidden" name="imageUrl" value="@item.ImageUrl" />
+                                    <button type="submit" class="btn btn-warning px-4">
+                                        <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -80,6 +86,7 @@
     }
 </section>
 
+<!-- Styles -->
 <style>
     .transition {
         transition: all 0.3s ease-in-out;

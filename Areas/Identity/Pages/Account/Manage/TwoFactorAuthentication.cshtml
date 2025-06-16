@@ -1,0 +1,47 @@
+﻿@page
+@model TwoFactorAuthenticationModel
+@{
+    ViewData["Title"] = "Two-Factor Authentication";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm rounded-4">
+        <div class="card-body p-4">
+            <h2 class="card-title mb-4">Two-Factor Authentication (2FA)</h2>
+
+            @if (!string.IsNullOrEmpty(Model.StatusMessage))
+            {
+                <div class="alert alert-info">@Model.StatusMessage</div>
+            }
+
+            @if (Model.Is2faEnabled)
+            {
+                <div class="mb-3">
+                    <p class="text-success">2FA is currently <strong>enabled</strong>.</p>
+                    <form method="post" asp-page-handler="Disable2fa">
+                        <button type="submit" class="btn btn-danger">Disable 2FA</button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="mb-3">
+                    <p class="text-warning">2FA is currently <strong>disabled</strong>.</p>
+                    <form method="post" asp-page-handler="Enable2fa">
+                        <button type="submit" class="btn btn-primary">Enable 2FA</button>
+                    </form>
+                </div>
+            }
+
+            <div class="mb-3">
+                <form method="post" asp-page-handler="ResetAuthenticator">
+                    <button type="submit" class="btn btn-outline-secondary">Reset Authenticator App Key</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

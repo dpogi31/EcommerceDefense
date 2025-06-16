@@ -11,7 +11,6 @@ namespace EcommerceDefense.Data
         {
         }
 
-        // Add your custom DbSets here in the future
-        // public DbSet<Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }

@@ -1,21 +1,23 @@
-﻿using EcommerceDefense.Models;
+﻿using EcommerceDefense.Data;
+using EcommerceDefense.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
-[Authorize] 
+[AllowAnonymous] 
 public class ProductController : Controller
 {
-    public IActionResult Index()
-    {
-        
-        var products = new List<Product>
-        {
-            new Product { Id = 1, Name = "Watch Alpha", Price = 1999, ImageUrl = "/images/P1.png" },
-            new Product { Id = 2, Name = "Watch Beta", Price = 2499, ImageUrl = "/images/P2.png" },
-            new Product { Id = 3, Name = "Watch Omega", Price = 2999, ImageUrl = "/images/P3.png" }
-        };
+    private readonly ApplicationDbContext _context;
 
+    public ProductController(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        var products = await _context.Products.ToListAsync();
         return View(products);
     }
 }

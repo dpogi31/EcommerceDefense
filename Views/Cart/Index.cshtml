@@ -3,7 +3,7 @@
     ViewData["Title"] = "Your Cart";
 }
 
-<h2>Your Cart</h2>
+<h2 class="mb-4">Your Cart</h2>
 
 @if (!Model.Any())
 {
@@ -11,7 +11,7 @@
 }
 else
 {
-    <table class="table table-bordered mt-4">
+    <table class="table table-bordered align-middle mt-4">
         <thead class="table-light">
             <tr>
                 <th>Image</th>
@@ -19,32 +19,73 @@ else
                 <th>Price</th>
                 <th>Qty</th>
                 <th>Total</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr>
-                    <td><img src="@item.ImageUrl" width="80" /></td>
+                    <td><img src="@item.ImageUrl" width="80" class="img-thumbnail" style="height: 80px; object-fit: cover;" /></td>
                     <td>@item.Name</td>
                     <td>₱@item.Price</td>
                     <td>@item.Quantity</td>
                     <td>₱@(item.Quantity* item.Price)</td>
                     <td>
-                        <form asp-controller="Cart" asp-action="RemoveFromCart" method="post">
-                            <input type="hidden" name="id" value="@item.Id" />
-                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                        </form>
+                        <button type="button"
+                                class="btn btn-sm btn-outline-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#confirmDeleteModal"
+                                data-item-id="@item.Id"
+                                data-item-name="@item.Name">
+                            <i class="bi bi-trash"></i> Remove
+                        </button>
                     </td>
                 </tr>
-            
-
             }
         </tbody>
     </table>
 
-    <p class="fw-bold text-end">
-        Total: ₱@Model.Sum(i => i.Price * i.Quantity)
-    </p>
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <p class="fw-bold fs-5 mb-0">Total: ₱@Model.Sum(i => i.Price * i.Quantity)</p>
+        <a asp-controller="Order" asp-action="Checkout" class="btn btn-lg btn-warning px-4 shadow">
+            <i class="bi bi-credit-card-fill me-2"></i> Proceed to Checkout
+        </a>
+    </div>
+}
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Remove Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to remove <strong id="modalItemName"></strong> from your cart?
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" asp-controller="Cart" asp-action="RemoveFromCart" method="post">
+                    <input type="hidden" name="id" id="itemIdToRemove" />
+                    <button type="submit" class="btn btn-danger">Yes, Remove</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        const confirmModal = document.getElementById('confirmDeleteModal');
+        confirmModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const itemId = button.getAttribute('data-item-id');
+            const itemName = button.getAttribute('data-item-name');
+
+            document.getElementById('itemIdToRemove').value = itemId;
+            document.getElementById('modalItemName').textContent = itemName;
+        });
+    </script>
 }

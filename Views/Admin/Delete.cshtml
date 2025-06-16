@@ -4,21 +4,39 @@
     ViewData["Title"] = "Delete Product";
 }
 
-<h2>Delete Product</h2>
+<section class="container mt-5">
+    <div class="card shadow-sm p-4 rounded-4 border-danger">
+        <h2 class="text-danger mb-3"><i class="bi bi-exclamation-triangle-fill me-2"></i>Delete Product</h2>
 
-<div class="alert alert-warning">
-    Are you sure you want to delete the following product?
-</div>
+        <div class="alert alert-warning border-start border-4 border-warning">
+            <strong>Warning:</strong> This action is irreversible. Are you sure you want to delete this product?
+        </div>
 
-<div class="card p-3 mb-3">
-    <h4>@Model.Name</h4>
-    <p>@Model.Description</p>
-    <p><strong>Price:</strong> ₱@Model.Price</p>
-    <img src="@Model.ImageUrl" alt="@Model.Name" style="max-width: 200px;" />
-</div>
+        <div class="card p-3 mb-4">
+            <h4 class="fw-bold">@Model.Name</h4>
+            <p>@Model.Description</p>
+            <p><strong>Price:</strong> ₱@Model.Price</p>
+            <img src="@Model.ImageUrl" alt="@Model.Name" style="max-width: 200px;" class="img-thumbnail shadow-sm" />
+        </div>
 
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-danger">Yes, Delete</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+        <form asp-action="Delete" method="post" id="deleteForm" class="d-flex gap-3">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger px-4">
+                <i class="bi bi-trash-fill me-1"></i> Yes, Delete
+            </button>
+            <a asp-action="Index" class="btn btn-secondary px-4">
+                <i class="bi bi-x-circle me-1"></i> Cancel
+            </a>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        document.getElementById("deleteForm").addEventListener("submit", function (e) {
+            if (!confirm("⚠️ Are you absolutely sure you want to permanently delete this product?")) {
+                e.preventDefault(); 
+            }
+        });
+    </script>
+}

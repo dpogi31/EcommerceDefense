@@ -21,28 +21,29 @@ namespace EcommerceDefense.Areas.Identity.Pages.Account
         }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel Input { get; set; } = new InputModel();
 
-        public string ReturnUrl { get; set; }
+        [BindProperty]
+        public string? ReturnUrl { get; set; }
 
         [TempData]
-        public string ErrorMessage { get; set; }
+        public string? ErrorMessage { get; set; }
 
         public class InputModel
         {
             [Required]
             [EmailAddress]
-            public string Email { get; set; }
+            public string Email { get; set; } = string.Empty;
 
             [Required]
             [DataType(DataType.Password)]
-            public string Password { get; set; }
+            public string Password { get; set; } = string.Empty;
 
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string? returnUrl = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
@@ -51,11 +52,11 @@ namespace EcommerceDefense.Areas.Identity.Pages.Account
 
             ReturnUrl = returnUrl ?? Url.Content("~/");
 
-            // Clear any existing external cookies (safe to leave, or remove if not needed)
+            // Clear any existing external cookies
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
             ReturnUrl = returnUrl ?? Url.Content("~/");
 
@@ -82,7 +83,6 @@ namespace EcommerceDefense.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
 
-            // Something failed, redisplay form
             return Page();
         }
     }
