@@ -1,0 +1,13 @@
+﻿@page
+@model VerifyOtpModel
+@{
+    ViewData["Title"] = "Verify OTP";
+}
+<h2>Verify OTP</h2>
+
+<form method="post">
+    <label>Enter the OTP sent to your email:</label>
+    <input asp-for="Input.OtpCode" class="form-control" />
+    <span asp-validation-for="Input.OtpCode" class="text-danger"></span>
+    <button type="submit" class="btn btn-primary mt-2">Verify</button>
+</form>

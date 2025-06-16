@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -55,6 +55,9 @@ main, .container, .pb-3 {
     color: #555;
     max-width: 600px;
     margin: 0 auto;
+}
+.footer-text {
+    color: #6c757d;
 }
 
 .footer-icons a {
@@ -180,3 +183,201 @@ main, .container, .pb-3 {
         background-color: #c0392b;
         border-color: #c0392b;
     }
+body.dark-mode {
+    background-color: #121212;
+    color: #f1f1f1;
+}
+
+    body.dark-mode .navbar,
+    body.dark-mode .card,
+    body.dark-mode .form-control,
+    body.dark-mode .footer-landing,
+    body.dark-mode .list-group-item,
+    body.dark-mode .modal-content {
+        background-color: #1e1e1e !important;
+        color: #f1f1f1 !important;
+        border-color: #444 !important;
+    }
+
+    body.dark-mode .text-dark {
+        color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+        body.dark-mode .btn-primary:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+        }
+
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+    /* 🌙 Dark mode footer fix */
+    body.dark-mode .footer-landing {
+        background-color: #1e1e1e;
+        color: #f1f1f1;
+        border-top: 1px solid #444;
+    }
+
+    body.dark-mode .footer-content,
+    body.dark-mode .footer-bottom {
+        background-color: transparent;
+        color: #f1f1f1;
+    }
+
+    body.dark-mode .footer-icons a {
+        color: #f1f1f1;
+    }
+
+        body.dark-mode .footer-icons a:hover {
+            color: #0d6efd;
+        }
+    body.dark-mode .footer-text {
+        color: #bbb;
+    }
+/* Light mode (optional if already styled elsewhere) */
+.footer-title {
+    color: #212529; /* dark gray or black for light mode */
+}
+
+/* 🌙 Dark mode override */
+body.dark-mode .footer-title {
+    color: #f1f1f1; /* bright white for visibility */
+}
+.footer-tagline {
+    color: #6c757d;
+}
+
+body.dark-mode .footer-tagline {
+    color: #cccccc;
+}
+/* 🌙 Dark Mode Modal Fix */
+body.dark-mode .modal-content {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+    border: 1px solid #333;
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+    border-color: #444;
+}
+
+body.dark-mode .modal-title {
+    color: #ffffff;
+}
+
+body.dark-mode .btn-close {
+    filter: invert(1);
+}
+
+body.dark-mode .form-control {
+    background-color: #2c2c2c;
+    color: #f1f1f1;
+    border: 1px solid #555;
+}
+
+    body.dark-mode .form-control::placeholder {
+        color: #aaa;
+    }
+body.dark-mode .btn-secondary {
+    background-color: #444;
+    border-color: #555;
+    color: #f1f1f1;
+}
+/* 🌙 General Dark Mode Modal Styles */
+body.dark-mode .modal-content {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+    border: 1px solid #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+    border-color: #444;
+}
+
+body.dark-mode .modal-title {
+    color: #ffffff;
+}
+
+body.dark-mode .modal-body,
+body.dark-mode .modal-body p,
+body.dark-mode .modal-body span,
+body.dark-mode .modal-body label {
+    color: #ddd;
+}
+
+    /* Inputs inside modals */
+    body.dark-mode .modal-body .form-control {
+        background-color: #2c2c2c;
+        color: #f1f1f1;
+        border: 1px solid #555;
+    }
+
+        body.dark-mode .modal-body .form-control::placeholder {
+            color: #aaa;
+        }
+
+/* Buttons */
+body.dark-mode .modal-footer .btn {
+    color: #fff;
+}
+
+body.dark-mode .modal-footer .btn-secondary {
+    background-color: #444;
+    border-color: #555;
+}
+
+body.dark-mode .modal-footer .btn-danger {
+    background-color: #c82333;
+    border-color: #a71d2a;
+}
+
+body.dark-mode .btn-close {
+    filter: invert(1);
+}
+
+/* Backdrop fix */
+body.dark-mode .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+/* Fix bg-light override in modal-header */
+.modal-header.bg-light {
+    background-color: inherit !important;
+}
+
+/* Make text elements adapt to dark mode */
+body.dark-mode .modal-title-custom,
+body.dark-mode .description-label,
+body.dark-mode .modal-description,
+body.dark-mode .price-text {
+    color: #f1f1f1 !important;
+}
+
+/* Optional: boost dark contrast on img border */
+body.dark-mode .modal-body img {
+    border: 1px solid #555;
+}
+/* 🔧 Fix input turning white on focus in dark mode */
+body.dark-mode .form-control:focus,
+body.dark-mode .form-control:focus-visible {
+    background-color: #2c2c2c !important;
+    color: #f1f1f1 !important;
+    border-color: #888 !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.1) !important;
+    outline: none !important;
+}
+
+/* 🔧 Autofill fix for Chrome/Edge in dark mode */
+body.dark-mode input:-webkit-autofill,
+body.dark-mode input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px #2c2c2c inset !important;
+    -webkit-text-fill-color: #f1f1f1 !important;
+    border: 1px solid #555 !important;
+}

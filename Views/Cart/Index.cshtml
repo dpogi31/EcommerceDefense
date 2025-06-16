@@ -12,13 +12,14 @@
 else
 {
     <table class="table table-bordered align-middle mt-4">
-        <thead class="table-light">
+        <thead>
             <tr>
                 <th>Image</th>
                 <th>Product</th>
                 <th>Price</th>
                 <th>Qty</th>
                 <th>Total</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -74,6 +75,77 @@ else
         </div>
     </div>
 </div>
+<style>
+    /* 🌙 Dark Mode Base */
+    body.dark-mode {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+        /* 🌙 Table Styling */
+        body.dark-mode .table {
+            background-color: #1f1f1f;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+
+            body.dark-mode .table th,
+            body.dark-mode .table td {
+                background-color: #1f1f1f; /* match body for consistency */
+                color: #e0e0e0;
+                border: 1px solid #444;
+            }
+
+            /* 🌙 Table Head */
+            body.dark-mode .table thead {
+                background-color: #292929;
+                color: #ffffff;
+                border-bottom: 2px solid #444;
+            }
+
+            /* Optional: Zebra Striping in Dark Mode */
+            body.dark-mode .table tbody tr:nth-child(even) {
+                background-color: #262626;
+            }
+
+        /* 🌙 Button Styling */
+        body.dark-mode .btn-close {
+            filter: invert(1);
+        }
+
+        body.dark-mode .btn-outline-danger {
+            color: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+
+            body.dark-mode .btn-outline-danger:hover {
+                background-color: #ff6b6b;
+                color: #000;
+            }
+
+        body.dark-mode .btn-warning {
+            background-color: #f0ad4e;
+            border-color: #f0ad4e;
+            color: #000;
+        }
+
+            body.dark-mode .btn-warning:hover {
+                background-color: #e69c3a;
+                border-color: #e69c3a;
+            }
+
+        /* 🌙 Typography Fixes */
+        body.dark-mode h2,
+        body.dark-mode h3,
+        body.dark-mode p,
+        body.dark-mode .fw-bold,
+        body.dark-mode .fs-5,
+        body.dark-mode .text-dark {
+            color: #e0e0e0 !important;
+        }
+
+
+</style>
 
 
 @section Scripts {

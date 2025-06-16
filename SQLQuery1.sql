@@ -1,2 +1,1 @@
-﻿
-DELETE FROM AspNetUsers WHERE Email = 'admin@example.com';
+﻿DELETE FROM AspNetUsers WHERE Email = 'admin@gmail.com';

@@ -3,7 +3,15 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav">
+<ul class="navbar-nav align-items-center">
+
+    <!-- 🌙 Dark Mode Toggle (Always Visible) -->
+    <li class="nav-item">
+        <button class="btn btn-sm btn-outline-secondary ms-2 me-2" id="darkModeToggle">
+            <i id="darkModeIcon" class="bi bi-moon-stars-fill me-1"></i> Dark Mode
+        </button>
+    </li>
+
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
@@ -12,7 +20,6 @@
             </a>
         </li>
         <li class="nav-item">
-            
             <button type="button" class="nav-link btn btn-link text-dark" data-bs-toggle="modal" data-bs-target="#logoutModal">
                 Logout
             </button>
@@ -29,7 +36,7 @@
     }
 </ul>
 
-
+<!-- 🔐 Logout Confirmation Modal -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4 shadow">
@@ -42,8 +49,6 @@
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-
-                
                 <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" class="d-inline">
                     <button type="submit" class="btn btn-danger">Yes, Log Out</button>
                 </form>
