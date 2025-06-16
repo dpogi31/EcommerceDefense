@@ -1,10 +1,12 @@
 ﻿using EcommerceDefense.Data;
 using EcommerceDefense.Models;
+using EcommerceDefense.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,23 +17,17 @@ namespace EcommerceDefense.Controllers
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AdminController(ApplicationDbContext context)
+        public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-        }
-
-        private bool IsAdmin()
-        {
-            return HttpContext.Session.GetString("Role") == "Admin";
+            _userManager = userManager;
         }
 
         // GET: Admin/Index
         public async Task<IActionResult> Index()
         {
-            if (!IsAdmin())
-                return RedirectToAction("Index", "Login");
-
             var products = await _context.Products.ToListAsync();
             return View(products);
         }
@@ -39,9 +35,6 @@ namespace EcommerceDefense.Controllers
         // GET: Admin/Create
         public IActionResult Create()
         {
-            if (!IsAdmin())
-                return RedirectToAction("Index", "Login");
-
             return View();
         }
 
@@ -50,12 +43,9 @@ namespace EcommerceDefense.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product)
         {
-            if (!IsAdmin())
-                return RedirectToAction("Index", "Login");
-
             if (ModelState.IsValid)
             {
-                //  Handle image upload
+                // Handle image upload
                 if (product.ImageFile != null && product.ImageFile.Length > 0)
                 {
                     var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
@@ -85,9 +75,6 @@ namespace EcommerceDefense.Controllers
         // GET: Admin/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            if (!IsAdmin())
-                return RedirectToAction("Index", "Login");
-
             var product = await _context.Products.FindAsync(id);
             if (product == null)
                 return NotFound();
@@ -100,9 +87,6 @@ namespace EcommerceDefense.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Product updated)
         {
-            if (!IsAdmin())
-                return RedirectToAction("Index", "Login");
-
             if (id != updated.Id)
                 return NotFound();
 
@@ -117,7 +101,6 @@ namespace EcommerceDefense.Controllers
                     product.Description = updated.Description;
                     product.Price = updated.Price;
 
-                    // Image upload (optional)
                     if (updated.ImageFile != null && updated.ImageFile.Length > 0)
                     {
                         var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
@@ -152,9 +135,6 @@ namespace EcommerceDefense.Controllers
         // GET: Admin/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            if (!IsAdmin())
-                return RedirectToAction("Index", "Login");
-
             var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
             if (product == null)
                 return NotFound();
@@ -167,9 +147,6 @@ namespace EcommerceDefense.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (!IsAdmin())
-                return RedirectToAction("Index", "Login");
-
             var product = await _context.Products.FindAsync(id);
             if (product == null)
                 return NotFound();
@@ -179,6 +156,30 @@ namespace EcommerceDefense.Controllers
 
             TempData["SuccessMessage"] = "Product deleted!";
             return RedirectToAction(nameof(Index));
+        }
+
+        // ✅ GET: Admin/ViewUsers
+        public async Task<IActionResult> ViewUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var userList = new List<UserWithRolesViewModel>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+
+                userList.Add(new UserWithRolesViewModel
+                {
+                    Email = user.Email ?? "N/A",
+                    UserName = user.UserName ?? "N/A",
+                    PhoneNumber = user.PhoneNumber ?? "N/A",
+                    ProfileImage = string.IsNullOrEmpty(user.ProfileImage) ? "/images/default-avatar.png" : user.ProfileImage,
+                    Roles = roles.ToList()
+                });
+
+            }
+
+            return View(userList);
         }
     }
 }

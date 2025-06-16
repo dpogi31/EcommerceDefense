@@ -1,7 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿// File: Models/ApplicationUser.cs
+using Microsoft.AspNetCore.Identity;
+using System;
 
-public class ApplicationUser : IdentityUser
+namespace EcommerceDefense.Models
 {
-    public string? OtpCode { get; set; } // make nullable
-    public DateTime? OtpExpiration { get; set; } // make nullable
+    public class ApplicationUser : IdentityUser
+    {
+        public string? OtpCode { get; set; }
+        public DateTime? OtpExpiration { get; set; }
+        public string? ProfileImage { get; set; }
+    }
 }

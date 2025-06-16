@@ -1,0 +1,33 @@
+﻿@model IEnumerable<EcommerceDefense.ViewModels.UserWithRolesViewModel>
+
+@{
+    ViewData["Title"] = "Registered Users";
+}
+
+<h2 class="text-xl font-semibold mb-4">All Registered Users</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Avatar</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Phone</th>
+            <th>Role(s)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@(string.IsNullOrEmpty(user.ProfileImage) ? "/images/default-avatar.png" : user.ProfileImage)" alt="Avatar" width="50" height="50" />
+                </td>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+                <td>@user.PhoneNumber</td>
+                <td>@string.Join(", ", user.Roles)</td>
+            </tr>
+        }
+    </tbody>
+</table>
