@@ -1,0 +1,17 @@
+﻿@model EcommerceDefense.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Delete User";
+}
+
+<h2 class="text-xl font-semibold mb-4 text-danger">Confirm Delete</h2>
+
+<div>
+    <p>Are you sure you want to delete the user <strong>@Model.UserName</strong>?</p>
+
+    <form asp-action="DeleteUserConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a asp-action="ViewUsers" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

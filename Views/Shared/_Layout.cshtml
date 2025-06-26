@@ -1,55 +1,43 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var message = TempData["SuccessMessage"] ?? TempData["Message"] ?? TempData["ErrorMessage"] ?? TempData["Error"];
+    var isSuccess = TempData["SuccessMessage"] != null || TempData["Message"] != null;
+    var modalTitle = isSuccess ? "Success" : "Error";
+    var modalHeaderClass = isSuccess ? "bg-success text-white" : "bg-danger text-white";
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - EcommerceDefense</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EcommerceDefense.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         .account-container {
             max-width: 900px;
             margin: auto;
             padding: 40px 20px;
         }
-
-        .account-nav {
-            width: 250px;
-        }
-
-        .account-content {
-            flex-grow: 1;
-        }
-
+        .account-nav { width: 250px; }
+        .account-content { flex-grow: 1; }
         .list-group-item.active {
             background-color: #0d6efd;
             border-color: #0d6efd;
             color: #fff;
         }
-
-        .card-title {
-            font-weight: 600;
-            font-size: 1.4rem;
-        }
-
-        .card {
-            border-radius: 0.75rem;
-        }
-
-        .btn-primary {
-            border-radius: 0.5rem;
-        }
-
+        .card-title { font-weight: 600; font-size: 1.4rem; }
+        .card { border-radius: 0.75rem; }
+        .btn-primary { border-radius: 0.5rem; }
         body {
             transition: background-color 0.3s ease, color 0.3s ease;
         }
     </style>
-
-
 </head>
 <body>
     <header>
@@ -60,44 +48,17 @@
                 </a>
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Product" asp-action="Index">Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Cart" asp-action="Index">Cart</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Support" asp-action="Index">
-                                <i class="fas fa-headset"></i> Support
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Contact" asp-action="Index">
-                                <i class="fas fa-envelope"></i> Contact
-                            </a>
-                        </li>
-
-                        @* Show this link only if user is in Admin role *@
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Product" asp-action="Index">Products</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Cart" asp-action="Index">Cart</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Support" asp-action="Index"><i class="fas fa-headset"></i> Support</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Contact" asp-action="Index"><i class="fas fa-envelope"></i> Contact</a></li>
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark fw-bold" asp-controller="Products" asp-action="Index">
-                                    <i class="fas fa-tools"></i> Manage Products
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ViewUsers">
-                                    <i class="fas fa-users"></i> View Users
-                                </a>
-                            </li>
+                            <li class="nav-item"><a class="nav-link text-dark fw-bold" asp-controller="Products" asp-action="Index"><i class="fas fa-tools"></i> Manage Products</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Admin" asp-action="ViewUsers"><i class="fas fa-users"></i> View Users</a></li>
                         }
-
                     </ul>
-
-
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -105,18 +66,6 @@
     </header>
 
     <div class="container mt-3">
-
-        @*  TempData alert messages go here *@
-        @if (TempData["Message"] != null)
-        {
-            <div class="alert alert-success">@TempData["Message"]</div>
-        }
-        @if (TempData["Error"] != null)
-        {
-            <div class="alert alert-danger">@TempData["Error"]</div>
-        }
-
-
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -127,32 +76,56 @@
             <h2 class="footer-title">Chrono Sync</h2>
             <p class="footer-tagline">Stay in sync with your health, your style, and your time. Only at Chrono Sync.</p>
             <div class="footer-icons mt-3">
-                <a href="https://www.facebook.com/" aria-label="Facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.tiktok.com/" aria-label="Tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
-                <a href="https://www.youtube.com/" aria-label="Youtube" target="_blank"><i class="fab fa-youtube"></i></a>
-                <a href="https://www.linkedin.com/" aria-label="Linkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
             </div>
         </div>
         <div class="footer-bottom text-center py-3">
             <p class="mb-0 footer-text">© 2025 ChronoSync. All rights reserved.</p>
-
         </div>
     </footer>
 
+    @if (!string.IsNullOrEmpty(message?.ToString()))
+    {
+        <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header @modalHeaderClass">
+                        <h5 class="modal-title" id="alertModalLabel">@modalTitle</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @message
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
+                alertModal.show();
+            });
+        </script>
+    }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const toggleBtn = document.getElementById("darkModeToggle");
             const icon = document.getElementById("darkModeIcon");
             const currentTheme = localStorage.getItem("theme");
 
-            // Set dark mode on page load based on localStorage
             if (currentTheme === "dark") {
                 document.body.classList.add("dark-mode");
                 if (icon) {
@@ -161,25 +134,16 @@
                 }
             }
 
-            // Toggle dark mode
             toggleBtn?.addEventListener("click", () => {
                 const isDark = document.body.classList.toggle("dark-mode");
                 localStorage.setItem("theme", isDark ? "dark" : "light");
 
                 if (icon) {
-                    if (isDark) {
-                        icon.classList.remove("bi-moon-stars-fill");
-                        icon.classList.add("bi-sun-fill");
-                    } else {
-                        icon.classList.remove("bi-sun-fill");
-                        icon.classList.add("bi-moon-stars-fill");
-                    }
+                    icon.classList.toggle("bi-moon-stars-fill", !isDark);
+                    icon.classList.toggle("bi-sun-fill", isDark);
                 }
             });
         });
-
     </script>
-
-
 </body>
 </html>
