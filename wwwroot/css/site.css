@@ -1,42 +1,42 @@
 ﻿html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
-}
-
-html, body {
-    height: 100%;
-}
-
-body {
+    margin-bottom: 60px;
     display: flex;
     flex-direction: column;
     background-color: #fff;
+    height: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-
-main, .container, .pb-3 {
+main,
+.container,
+.pb-3 {
     flex: 1;
 }
 
-
+/* Footer */
 .footer-landing {
     background-color: #fff;
     border-top: 1px solid #eaeaea;
@@ -56,6 +56,7 @@ main, .container, .pb-3 {
     max-width: 600px;
     margin: 0 auto;
 }
+
 .footer-text {
     color: #6c757d;
 }
@@ -77,6 +78,7 @@ main, .container, .pb-3 {
     font-size: 0.9rem;
 }
 
+/* Modal */
 .modal-content {
     background-color: #ffffff;
     border-radius: 1rem;
@@ -85,7 +87,6 @@ main, .container, .pb-3 {
     padding: 1.5rem;
     transition: all 0.3s ease-in-out;
 }
-
 
 .modal-header {
     border-bottom: none;
@@ -97,12 +98,10 @@ main, .container, .pb-3 {
     color: #333;
 }
 
-
 .modal-body p {
     font-size: 1rem;
     color: #555;
 }
-
 
 .modal-footer {
     border-top: none;
@@ -115,7 +114,6 @@ main, .container, .pb-3 {
         font-weight: 500;
     }
 
-    
     .modal-footer .btn-secondary {
         background-color: #6c757d;
         border: none;
@@ -136,10 +134,10 @@ main, .container, .pb-3 {
             background-color: #c82333;
         }
 
-
 .btn-close:focus {
     box-shadow: none;
 }
+
 .card-body input:disabled {
     background-color: #f8f9fa !important;
     color: #6c757d;
@@ -183,6 +181,17 @@ main, .container, .pb-3 {
         background-color: #c0392b;
         border-color: #c0392b;
     }
+
+/* Avatar Style */
+.nav-avatar {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Dark Mode Overrides */
 body.dark-mode {
     background-color: #121212;
     color: #f1f1f1;
@@ -213,10 +222,6 @@ body.dark-mode {
             border-color: #0a58ca;
         }
 
-body {
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-    /* 🌙 Dark mode footer fix */
     body.dark-mode .footer-landing {
         background-color: #1e1e1e;
         color: #f1f1f1;
@@ -236,148 +241,149 @@ body {
         body.dark-mode .footer-icons a:hover {
             color: #0d6efd;
         }
+
     body.dark-mode .footer-text {
         color: #bbb;
     }
-/* Light mode (optional if already styled elsewhere) */
-.footer-title {
-    color: #212529; /* dark gray or black for light mode */
-}
 
-/* 🌙 Dark mode override */
-body.dark-mode .footer-title {
-    color: #f1f1f1; /* bright white for visibility */
-}
-.footer-tagline {
-    color: #6c757d;
-}
-
-body.dark-mode .footer-tagline {
-    color: #cccccc;
-}
-/* 🌙 Dark Mode Modal Fix */
-body.dark-mode .modal-content {
-    background-color: #1e1e1e;
-    color: #f1f1f1;
-    border: 1px solid #333;
-}
-
-body.dark-mode .modal-header,
-body.dark-mode .modal-footer {
-    border-color: #444;
-}
-
-body.dark-mode .modal-title {
-    color: #ffffff;
-}
-
-body.dark-mode .btn-close {
-    filter: invert(1);
-}
-
-body.dark-mode .form-control {
-    background-color: #2c2c2c;
-    color: #f1f1f1;
-    border: 1px solid #555;
-}
-
-    body.dark-mode .form-control::placeholder {
-        color: #aaa;
+    body.dark-mode .footer-title {
+        color: #f1f1f1;
     }
-body.dark-mode .btn-secondary {
-    background-color: #444;
-    border-color: #555;
-    color: #f1f1f1;
-}
-/* 🌙 General Dark Mode Modal Styles */
-body.dark-mode .modal-content {
-    background-color: #1e1e1e;
-    color: #f1f1f1;
-    border: 1px solid #333;
-    transition: background-color 0.3s, color 0.3s;
-}
 
-body.dark-mode .modal-header,
-body.dark-mode .modal-footer {
-    border-color: #444;
-}
+    body.dark-mode .footer-tagline {
+        color: #cccccc;
+    }
 
-body.dark-mode .modal-title {
-    color: #ffffff;
-}
+    body.dark-mode .modal-content {
+        background-color: #1e1e1e;
+        color: #f1f1f1;
+        border: 1px solid #333;
+    }
 
-body.dark-mode .modal-body,
-body.dark-mode .modal-body p,
-body.dark-mode .modal-body span,
-body.dark-mode .modal-body label {
-    color: #ddd;
-}
+    body.dark-mode .modal-header,
+    body.dark-mode .modal-footer {
+        border-color: #444;
+    }
 
-    /* Inputs inside modals */
-    body.dark-mode .modal-body .form-control {
+    body.dark-mode .modal-title {
+        color: #ffffff;
+    }
+
+    body.dark-mode .btn-close {
+        filter: invert(1);
+    }
+
+    body.dark-mode .form-control {
         background-color: #2c2c2c;
         color: #f1f1f1;
         border: 1px solid #555;
     }
 
-        body.dark-mode .modal-body .form-control::placeholder {
+        body.dark-mode .form-control::placeholder {
             color: #aaa;
         }
 
-/* Buttons */
-body.dark-mode .modal-footer .btn {
-    color: #fff;
-}
+    body.dark-mode .btn-secondary {
+        background-color: #444;
+        border-color: #555;
+        color: #f1f1f1;
+    }
 
-body.dark-mode .modal-footer .btn-secondary {
-    background-color: #444;
-    border-color: #555;
-}
+    body.dark-mode .modal-body,
+    body.dark-mode .modal-body p,
+    body.dark-mode .modal-body span,
+    body.dark-mode .modal-body label {
+        color: #ddd;
+    }
 
-body.dark-mode .modal-footer .btn-danger {
-    background-color: #c82333;
-    border-color: #a71d2a;
-}
+        body.dark-mode .modal-body .form-control {
+            background-color: #2c2c2c;
+            color: #f1f1f1;
+            border: 1px solid #555;
+        }
 
-body.dark-mode .btn-close {
-    filter: invert(1);
-}
+            body.dark-mode .modal-body .form-control::placeholder {
+                color: #aaa;
+            }
 
-/* Backdrop fix */
-body.dark-mode .modal-backdrop {
-    background-color: rgba(0, 0, 0, 0.8) !important;
-}
-/* Fix bg-light override in modal-header */
-.modal-header.bg-light {
-    background-color: inherit !important;
-}
+    body.dark-mode .modal-footer .btn {
+        color: #fff;
+    }
 
-/* Make text elements adapt to dark mode */
-body.dark-mode .modal-title-custom,
-body.dark-mode .description-label,
-body.dark-mode .modal-description,
-body.dark-mode .price-text {
-    color: #f1f1f1 !important;
-}
+    body.dark-mode .modal-footer .btn-secondary {
+        background-color: #444;
+        border-color: #555;
+    }
 
-/* Optional: boost dark contrast on img border */
-body.dark-mode .modal-body img {
-    border: 1px solid #555;
-}
-/* 🔧 Fix input turning white on focus in dark mode */
-body.dark-mode .form-control:focus,
-body.dark-mode .form-control:focus-visible {
-    background-color: #2c2c2c !important;
-    color: #f1f1f1 !important;
-    border-color: #888 !important;
-    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.1) !important;
-    outline: none !important;
-}
+    body.dark-mode .modal-footer .btn-danger {
+        background-color: #c82333;
+        border-color: #a71d2a;
+    }
 
-/* 🔧 Autofill fix for Chrome/Edge in dark mode */
-body.dark-mode input:-webkit-autofill,
-body.dark-mode input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 1000px #2c2c2c inset !important;
-    -webkit-text-fill-color: #f1f1f1 !important;
-    border: 1px solid #555 !important;
-}
+    body.dark-mode .modal-backdrop {
+        background-color: rgba(0, 0, 0, 0.8) !important;
+    }
+
+    body.dark-mode .modal-title-custom,
+    body.dark-mode .description-label,
+    body.dark-mode .modal-description,
+    body.dark-mode .price-text {
+        color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .modal-body img {
+        border: 1px solid #555;
+    }
+
+    body.dark-mode .form-control:focus,
+    body.dark-mode .form-control:focus-visible {
+        background-color: #2c2c2c !important;
+        color: #f1f1f1 !important;
+        border-color: #888 !important;
+        box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.1) !important;
+        outline: none !important;
+    }
+
+    body.dark-mode input:-webkit-autofill,
+    body.dark-mode input:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 1000px #2c2c2c inset !important;
+        -webkit-text-fill-color: #f1f1f1 !important;
+        border: 1px solid #555 !important;
+    }
+
+    
+    body.dark-mode .nav-avatar {
+        border: 2px solid #f1f1f1;
+        background-color: #fff;
+        box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+    }
+
+   
+    body.dark-mode .dropdown-toggle::after {
+        border-top-color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .dropdown-item {
+        color: #f1f1f1 !important;
+    }
+
+        body.dark-mode .dropdown-item:hover,
+        body.dark-mode .dropdown-item:focus {
+            background-color: #3c3c3c !important;
+            color: white !important;
+        }
+
+    body.dark-mode .dropdown-divider {
+        border-color: #555 !important;
+    }
+
+    body.dark-mode .dropdown-menu {
+        background-color: #2c2c2c !important;
+        color: #f1f1f1 !important;
+        border: 1px solid #444 !important;
+    }
+    body.dark-mode .dropdown-toggle,
+    body.dark-mode .dropdown-toggle span,
+    body.dark-mode .dropdown-toggle .d-md-inline {
+        color: #f1f1f1 !important;
+    }
