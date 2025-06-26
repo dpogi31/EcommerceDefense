@@ -1,82 +1,28 @@
-﻿html {
-    font-size: 14px;
-}
-
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn-link.nav-link:focus,
-.form-control:focus,
-.form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-    position: relative;
-    min-height: 100%;
+﻿html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 body {
-    margin-bottom: 60px;
-    display: flex;
-    flex-direction: column;
     background-color: #fff;
-    height: 100%;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-main,
-.container,
-.pb-3 {
-    flex: 1;
+main {
+    flex: 1 0 auto; 
 }
 
-/* Footer */
 .footer-landing {
+    flex-shrink: 0; 
     background-color: #fff;
     border-top: 1px solid #eaeaea;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
     font-family: 'Segoe UI', sans-serif;
 }
 
-.footer-title {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #000;
-}
-
-.footer-tagline {
-    font-size: 1rem;
-    color: #555;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.footer-text {
-    color: #6c757d;
-}
-
-.footer-icons a {
-    color: #333;
-    font-size: 1.5rem;
-    margin: 0 10px;
-    transition: color 0.3s ease;
-}
-
-    .footer-icons a:hover {
-        color: #f0b028;
-    }
-
-.footer-bottom {
-    border-top: 1px solid #eee;
-    background-color: #fafafa;
-    font-size: 0.9rem;
-}
 
 /* Modal */
 .modal-content {

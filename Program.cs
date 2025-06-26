@@ -108,5 +108,5 @@ async Task SeedAdminAsync(WebApplication app)
         await userManager.AddToRoleAsync(adminUser, "Admin");
     }
 
-    Console.WriteLine($"✅ Admin user seeded: {adminEmail} / {adminPassword}");
+    Console.WriteLine($" Admin user seeded: {adminEmail} / {adminPassword}");
 }
