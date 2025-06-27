@@ -7,12 +7,14 @@
     @if (SignInManager.IsSignedIn(User))
     {
         var user = await UserManager.GetUserAsync(User);
+        var userName = string.IsNullOrEmpty(user?.UserName) ? "User" : user.UserName;
         var profileImage = string.IsNullOrEmpty(user?.ProfileImage) ? "/images/default-avatar.png" : user.ProfileImage;
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="@profileImage" alt="Avatar" class="nav-avatar me-2" />
-                <span class="d-none d-md-inline">@user?.UserName</span>
+                <span class="d-none d-md-inline">@userName</span>
+
             </a>
 
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
