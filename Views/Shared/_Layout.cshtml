@@ -34,6 +34,7 @@
         .card-title { font-weight: 600; font-size: 1.4rem; }
         .card { border-radius: 0.75rem; }
         .btn-primary { border-radius: 0.5rem; }
+
         body {
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -48,11 +49,31 @@
                 </a>
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Product" asp-action="Index">Products</a></li>
-                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Cart" asp-action="Index">Cart</a></li>
-                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Support" asp-action="Index"><i class="fas fa-headset"></i> Support</a></li>
-                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Contact" asp-action="Index"><i class="fas fa-envelope"></i> Contact</a></li>
+                         <li class="nav-item">
+        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">
+            <i class="fas fa-home me-1"></i> Home
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-controller="Product" asp-action="Index">
+            <i class="fas fa-box-open me-1"></i> Products
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-controller="Cart" asp-action="Index">
+            <i class="fas fa-shopping-cart me-1"></i> Cart
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-controller="Support" asp-action="Index">
+            <i class="fas fa-headset me-1"></i> Support
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-controller="Contact" asp-action="Index">
+            <i class="fas fa-envelope me-1"></i> Contact
+        </a>
+    </li>
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item"><a class="nav-link text-dark fw-bold" asp-controller="Products" asp-action="Index"><i class="fas fa-tools"></i> Manage Products</a></li>
@@ -65,8 +86,9 @@
         </nav>
     </header>
 
+    <!-- Animate this main content on every page load -->
     <div class="container mt-3">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 fade-slide-up">
             @RenderBody()
         </main>
     </div>
@@ -120,8 +142,17 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
+    <!-- Animation reset script to re-trigger on each load -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            const main = document.querySelector("main.fade-slide-up");
+            if (main) {
+                main.classList.remove("fade-slide-up");
+                void main.offsetWidth; // Force reflow
+                main.classList.add("fade-slide-up");
+            }
+
+            // Optional: Dark mode logic
             const toggleBtn = document.getElementById("darkModeToggle");
             const icon = document.getElementById("darkModeIcon");
             const currentTheme = localStorage.getItem("theme");
