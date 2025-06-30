@@ -60,11 +60,11 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-await SeedAdminAsync(app); // Admin and roles will be created here
+await SeedAdminAsync(app); 
 await app.RunAsync();
 
 
-// ✅ Admin Seeding Logic
+//  Admin Seeding Logic
 async Task SeedAdminAsync(WebApplication app)
 {
     using var scope = app.Services.CreateScope();
@@ -108,5 +108,5 @@ async Task SeedAdminAsync(WebApplication app)
         await userManager.AddToRoleAsync(adminUser, "Admin");
     }
 
-    Console.WriteLine($"✅ Admin user seeded: {adminEmail} / {adminPassword}");
+    Console.WriteLine($" Admin user seeded: {adminEmail} / {adminPassword}");
 }

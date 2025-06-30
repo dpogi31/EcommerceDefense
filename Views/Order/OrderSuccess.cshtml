@@ -6,7 +6,28 @@
     <h2 class="text-success fw-bold mb-4">
         <i class="bi bi-check-circle-fill me-2"></i>Thank you for your order!
     </h2>
-    <p class="lead">Your order has been placed successfully and is being processed.</p>
+
+    <p class="lead mb-4">Your order has been placed successfully and is being processed.</p>
+
+    <div class="card shadow-sm mx-auto" style="max-width: 500px;">
+        <div class="card-body">
+            <h5 class="card-title text-start mb-3">Order Receipt</h5>
+            <ul class="list-group text-start mb-3">
+                <li class="list-group-item">
+                    <strong>Name:</strong> @TempData["FullName"]
+                </li>
+                <li class="list-group-item">
+                    <strong>Address:</strong> @TempData["Address"]
+                </li>
+                <li class="list-group-item">
+                    <strong>Payment Method:</strong> @TempData["PaymentMethod"]
+                </li>
+                <li class="list-group-item">
+                    <strong>Total Amount:</strong> ₱@TempData["TotalAmount"]
+                </li>
+            </ul>
+        </div>
+    </div>
 
     <a href="@Url.Action("Index", "Product")" class="btn btn-primary mt-4">
         <i class="bi bi-shop-window me-1"></i> Continue Shopping

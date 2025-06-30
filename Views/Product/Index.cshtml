@@ -28,7 +28,9 @@
                         <h5 class="card-title fw-semibold text-dark">@item.Name</h5>
                         <p class="fw-bold text-primary mb-3">₱@item.Price</p>
                         <div class="mt-auto d-grid gap-2">
-                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#descModal@item.Id">
+                            <button class="btn btn-outline-secondary btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#descModal_@item.Id">
                                 <i class="bi bi-info-circle me-1"></i> View Description
                             </button>
                             <a asp-controller="Cart" asp-action="AddToCart"
@@ -45,11 +47,11 @@
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="descModal@item.Id" tabindex="-1" aria-labelledby="descModalLabel@item.Id" aria-hidden="true">
+            <div class="modal fade" id="descModal_@item.Id" tabindex="-1" aria-labelledby="descModalLabel_@item.Id" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content rounded-4">
                         <div class="modal-header">
-                            <h5 class="modal-title fw-bold modal-title-custom" id="descModalLabel@item.Id">@item.Name</h5>
+                            <h5 class="modal-title fw-bold modal-title-custom" id="descModalLabel_@item.Id">@item.Name</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body d-flex gap-4 flex-column flex-md-row align-items-center text-center text-md-start px-4 py-4">
@@ -73,8 +75,8 @@
                     </div>
                 </div>
             </div>
-        } <!-- End of foreach -->
-    </div> <!-- End of row -->
+        } 
+    </div> 
 
     @if (Model.Any())
     {
@@ -86,7 +88,6 @@
     }
 </section>
 
-<!-- Styles -->
 <style>
     .transition {
         transition: all 0.3s ease-in-out;

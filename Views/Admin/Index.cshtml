@@ -1,10 +1,14 @@
 ﻿@model List<EcommerceDefense.Models.Product>
+
 @{
     ViewData["Title"] = "Admin - Product List";
 }
 <h2>Product List</h2>
 
-<a asp-action="Create" class="btn btn-success mb-3">Add New Product</a>
+<div class="mb-3 d-flex gap-2">
+    <a asp-action="Create" class="btn btn-success">Add New Product</a>
+</div>
+
 
 <table class="table table-bordered">
     <thead>
@@ -35,8 +39,6 @@
                         <span>No Image</span>
                     }
                 </td>
-
-
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
