@@ -12,19 +12,26 @@ body {
 }
 
 main {
-    flex: 1 0 auto; 
+    flex: 1 0 auto;
 }
 
 .footer-landing {
-    flex-shrink: 0; 
+    flex-shrink: 0;
     background-color: #fff;
     border-top: 1px solid #eaeaea;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
     font-family: 'Segoe UI', sans-serif;
 }
 
+/* Modal Fixes */
+.modal {
+    z-index: 1055 !important;
+}
 
-/* Modal */
+.modal-backdrop {
+    z-index: 1050 !important;
+}
+
 .modal-content {
     background-color: #ffffff;
     border-radius: 1rem;
@@ -44,10 +51,15 @@ main {
     color: #333;
 }
 
-.modal-body p {
-    font-size: 1rem;
-    color: #555;
+.modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
 }
+
+    .modal-body p {
+        font-size: 1rem;
+        color: #555;
+    }
 
 .modal-footer {
     border-top: none;
@@ -84,10 +96,19 @@ main {
     box-shadow: none;
 }
 
-.card-body input:disabled {
-    background-color: #f8f9fa !important;
-    color: #6c757d;
-    cursor: not-allowed;
+/* Ensure modal dialog is centered vertically */
+.modal-dialog {
+    max-width: 800px;
+    margin: 1.75rem auto;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 100vh !important;
+}
+
+.modal.show {
+    display: block;
+    padding-right: 0 !important;
 }
 
 /* Custom Button Styles */
@@ -128,6 +149,12 @@ main {
         border-color: #c0392b;
     }
 
+.card-body input:disabled {
+    background-color: #f8f9fa !important;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
 /* Avatar Style */
 .nav-avatar {
     width: 32px;
@@ -135,6 +162,23 @@ main {
     object-fit: cover;
     border-radius: 50%;
     transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Animation */
+@keyframes fadeSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-slide-up {
+    animation: fadeSlideUp 0.8s ease-out forwards;
 }
 
 /* Dark Mode Overrides */
@@ -297,14 +341,12 @@ body.dark-mode {
         border: 1px solid #555 !important;
     }
 
-    
     body.dark-mode .nav-avatar {
         border: 2px solid #f1f1f1;
         background-color: #fff;
         box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
     }
 
-   
     body.dark-mode .dropdown-toggle::after {
         border-top-color: #f1f1f1 !important;
     }
@@ -328,30 +370,17 @@ body.dark-mode {
         color: #f1f1f1 !important;
         border: 1px solid #444 !important;
     }
+
     body.dark-mode .dropdown-toggle,
     body.dark-mode .dropdown-toggle span,
     body.dark-mode .dropdown-toggle .d-md-inline {
         color: #f1f1f1 !important;
     }
+
 .nav-avatar {
     width: 32px;
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;
-}
-@keyframes fadeSlideUp {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.fade-slide-up {
-    animation: fadeSlideUp 0.8s ease-out forwards
 }
